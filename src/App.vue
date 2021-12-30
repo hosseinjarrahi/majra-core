@@ -1,26 +1,29 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <MForm :fields="fields" v-model="form" />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import MForm from "./components/MForm.vue";
+import TextField from "./components/test/TextField.vue";
+import "./assets/tailwind.css";
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
-</script>
+  name: "App",
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+  components: { MForm },
+
+  data: () => ({
+    form: { name: "" },
+    fields: [
+      {
+        title: "نام محصول",
+        field: "name",
+        component: TextField,
+        isHeader: true,
+        col: { md: 12 },
+        group: "اطلاعات محصول",
+      },
+    ],
+  }),
+};
+</script>
