@@ -27,6 +27,7 @@
 <script>
 import { sortBy, has, flatten, get as getSafe } from "lodash";
 const FieldSet = () => import("./../utilities/FieldSet");
+import { event, listen } from "./../../plugins/mitt";
 
 export default {
   name: "FormFields",
@@ -45,18 +46,18 @@ export default {
   methods: {
     getSafe,
 
-    // mounted(field) {
-    //   // this._event("mounted." + field, {
-    //   //   item: this.form,
-    //   //   field: field,
-    //   // });
-    // },
+    mounted(field) {
+      event("mounted." + field, {
+        item: this.form,
+        field: field,
+      });
+    },
 
-    // created() {
-    //   // this._listen("resetFilters", () => {
-    //   //   this.filters = {};
-    //   // });
-    // },
+    created() {
+      listen("resetFilters", () => {
+        this.filters = {};
+      });
+    },
 
     bind(schema) {
       return {
@@ -117,8 +118,6 @@ export default {
     getFromSchema(field) {
       return (prop, def = null) => getSafe(field, prop, def);
     },
-
-    mounted() {},
   },
 
   computed: {

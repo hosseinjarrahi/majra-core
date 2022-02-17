@@ -2,28 +2,22 @@
   <MForm :fields="fields" v-model="form" />
 </template>
 
-<script>
+<script setup>
 import MForm from "./components/MForm.vue";
-import TextField from "./components/test/TextField.vue";
+import TextField from "./components/exampleField/TextField.vue";
 import "./assets/tailwind.css";
+import { ref } from "vue";
 
-export default {
-  name: "App",
+const form = ref({ name: "" });
 
-  components: { MForm },
-
-  data: () => ({
-    form: { name: "" },
-    fields: [
-      {
-        title: "نام محصول",
-        field: "name",
-        component: TextField,
-        isHeader: true,
-        col: { md: 12 },
-        group: "اطلاعات محصول",
-      },
-    ],
-  }),
-};
+const fields = [
+  {
+    title: "نام محصول",
+    field: "name",
+    component: TextField,
+    isHeader: true,
+    col: { md: 12 },
+    group: "اطلاعات محصول",
+  },
+];
 </script>

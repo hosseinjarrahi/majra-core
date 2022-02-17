@@ -9,6 +9,7 @@
 <script>
 import FormFields from "./form/FormFields.vue";
 import { get as safeGet, isObject, has } from "lodash";
+import { event } from "./../plugins/mitt";
 
 export default {
   name: "MForm",
@@ -80,18 +81,18 @@ export default {
             }
           }
         });
-        this._event("callParentChanged");
+        event("callParentChanged");
       } else {
         this.form = { ...this.initialForm };
       }
-      this._event("formFilled", { value: this.form });
+      event("formFilled", { value: this.form });
       this.$emit("update:modelValue", { ...this.form });
     },
 
     updateField(schema) {
       const old = this.form[schema.field];
       this.form[schema.field] = schema.value;
-      this._event("fieldChanged." + schema.field, {
+      event("fieldChanged." + schema.field, {
         old,
         value: schema.value,
         instance: this,

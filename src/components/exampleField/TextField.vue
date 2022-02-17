@@ -1,5 +1,9 @@
 <template>
-  <input placeholder="test" />
+  <input
+    placeholder="test"
+    :value="value"
+    @input="(event) => updateField(event.target.value)"
+  />
 </template>
 
 <script>
