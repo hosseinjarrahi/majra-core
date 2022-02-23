@@ -9,4 +9,5 @@ export default {
   getProp: {},
   getFromField: {},
   value: {},
+  error: {},
 };

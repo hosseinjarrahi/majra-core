@@ -50,6 +50,8 @@ const filteredFields = computed(() =>
   )
 );
 
+const errors = ref({});
+
 function mounted(field) {
   event("mounted." + field, {
     item: props.form,
@@ -74,11 +76,16 @@ function bind(schema) {
     filters: filters.value,
     getProp: getProp(schema),
     getFromSchema: getFromSchema(schema),
-    value: props.form[schema.field],
+    value: getSafe(props.form, schema.field),
+    error: getSafe(errors.value, schema.field, false),
   };
 }
 
 function updateField(schema, value) {
+  if (has(schema, "validation")) {
+    const isValid = schema.validation(value);
+    errors.value[schema.field] = isValid !== true ? isValid : false;
+  }
   emit("updateField", { ...schema, value });
 }
 
