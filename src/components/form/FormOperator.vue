@@ -26,7 +26,7 @@
 
 <script setup>
 import { event, listen } from "./../../plugins/mitt";
-import { sortBy, has, flatten, get as getSafe } from "lodash";
+import { sortBy, has, isEmpty, flatten, get as getSafe } from "lodash";
 import { ref, defineProps, defineEmits, computed } from "vue";
 // eslint-disable-next-line no-unused-vars
 const FieldSet = async () => import("./../utilities/FieldSet");
@@ -81,11 +81,29 @@ function bind(schema) {
   };
 }
 
-function updateField(schema, value) {
-  if (has(schema, "validation")) {
-    const isValid = schema.validation(value);
-    errors.value[schema.field] = isValid !== true ? isValid : false;
+function validate() {
+  for (const schema of props.fields) {
+    validation(schema, getSafe(props.form, schema.field));
   }
+}
+
+listen("form.validate", (result) => {
+  validate();
+  result.value.errors = errors.value;
+  result.value.isValid = isEmpty(errors.value);
+});
+
+function validation(schema, value) {
+  if (!has(schema, "validation")) return;
+
+  const isValid = schema.validation(value);
+
+  errors.value[schema.field] = isValid !== true ? isValid : false;
+}
+
+function updateField(schema, value) {
+  validation(schema, value);
+
   emit("updateField", { ...schema, value });
 }
 
