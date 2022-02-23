@@ -1,15 +1,14 @@
 <template>
   <input
-    placeholder="test"
+    class="border-2 border-indigo-600 rounded"
     :value="value"
     @input="(event) => updateField(event.target.value)"
   />
 </template>
 
-<script>
-import FormFieldAbstract from "../form/FormFieldAbstract.vue";
+<script setup>
+import { defineProps } from "vue";
+import useFieldProps from "../../composables/useFieldProps";
 
-export default {
-  extends: FormFieldAbstract,
-};
+defineProps(useFieldProps);
 </script>
