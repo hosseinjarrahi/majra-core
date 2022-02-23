@@ -1,23 +1,23 @@
 <template>
   <div class="flex flex-wrap">
     <component
-      v-for="(fields, key) in sortedFields"
+      v-for="(schema, key) in filteredFields"
       :is="Array.isArray(fields) ? 'FieldSet' : 'div'"
       class="d-flex flex-wrap"
       :label="key"
       :key="key"
     >
       <div
-        v-for="(schema, index) in Array.isArray(fields) ? fields : [fields]"
+        v-for="(property, index) in Array.isArray(schema) ? schema : [schema]"
         class="my-0 p-1 w-full"
-        :key="schema.field"
-        v-bind="getSafe(schema, 'class', {})"
+        :key="property.field"
+        v-bind="getSafe(property, 'class', {})"
       >
         <component
           :index="index"
-          v-bind="bind(schema)"
-          :is="getComponent(schema)"
-          @mounted="mounted(schema.field)"
+          v-bind="bind(property)"
+          :is="getComponent(property)"
+          @mounted="mounted(property.field)"
         />
       </div>
     </component>
@@ -44,6 +44,11 @@ let sharedData = ref({});
 
 const flatFields = computed(() => flatten(props.fields));
 const sortedFields = computed(() => sortBy(props.fields, "order"));
+const filteredFields = computed(() =>
+  sortedFields.value.filter((schema) =>
+    has(schema, "if") ? schema.if(props.form) : true
+  )
+);
 
 function mounted(field) {
   event("mounted." + field, {

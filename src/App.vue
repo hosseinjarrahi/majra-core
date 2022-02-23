@@ -1,6 +1,6 @@
 <template>
   <MForm :fields="fields" v-model="form" :form-data="formData" />
-  <button @click="change">click</button>
+  <button @click="yes = !yes">{{ yes }}</button>
 </template>
 
 <script setup>
@@ -18,19 +18,11 @@ const fields = reactive([
     field: "name",
     component: TextField,
     isHeader: true,
+    validate(value) {
+      return value !== null || "غلطه";
+    },
     col: { md: 12 },
     group: "اطلاعات محصول",
   },
 ]);
-
-function change() {
-  fields.push({
-    title: "نام s",
-    field: "namse",
-    component: TextField,
-    isHeader: true,
-    col: { md: 12 },
-    group: "اطلsاعات محصول",
-  });
-}
 </script>
