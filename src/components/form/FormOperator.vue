@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import { event, listen } from "./../../plugins/mitt";
+import { event, listen } from "./../../composables/useEmitter";
 import { sortBy, has, isEmpty, flatten, get as getSafe } from "lodash";
 import { ref, defineProps, defineEmits, computed } from "vue";
 // eslint-disable-next-line no-unused-vars

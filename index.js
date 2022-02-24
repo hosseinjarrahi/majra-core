@@ -1,6 +1,6 @@
 import MForm from "./src/components/MForm.vue";
-import mitt from "./src/plugins/mitt";
+import useEmitter from "./src/composables/useEmitter";
 import FormFieldAbstract from "./src/components/form/FormFieldAbstract.vue";
 import useFieldProps from "./src/composables/useFieldProps";
 
-export { MForm, mitt, FormFieldAbstract, useFieldProps };
+export { MForm, useEmitter, FormFieldAbstract, useFieldProps };

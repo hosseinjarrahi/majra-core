@@ -11,7 +11,7 @@ import TextField from "./components/exampleField/TextField.vue";
 import MForm from "./components/MForm.vue";
 import "./assets/tailwind.css";
 import { reactive, ref } from "vue";
-import { event } from "./plugins/mitt";
+import { event } from "./composables/useEmitter";
 
 const form = ref({ name: "" });
 const formData = ref({ name: "test" });
