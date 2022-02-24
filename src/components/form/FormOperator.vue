@@ -26,7 +26,7 @@
 
 <script setup>
 import { event, listen } from "./../../composables/useEmitter";
-import { sortBy, has, isEmpty, flatten, get as getSafe } from "lodash";
+import { sortBy, has, pickBy, isEmpty, flatten, get as getSafe } from "lodash";
 import { ref, defineProps, defineEmits, computed } from "vue";
 // eslint-disable-next-line no-unused-vars
 const FieldSet = async () => import("./../utilities/FieldSet");
@@ -89,8 +89,8 @@ function validate() {
 
 listen("form.validate", (result) => {
   validate();
-  result.value.errors = errors.value;
-  result.value.isValid = isEmpty(errors.value);
+  result.value.errors = pickBy(errors.value, (val) => !!val);
+  result.value.isValid = isEmpty(result.value.errors);
 });
 
 function validation(schema, value) {
