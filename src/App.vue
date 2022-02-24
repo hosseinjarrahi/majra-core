@@ -11,11 +11,10 @@
 /* eslint-disable no-unused-vars */
 
 import TextField from "./components/exampleField/TextField.vue";
-import MForm from "./components/MForm.vue";
-import "./assets/tailwind.css";
-import { reactive, ref, onBeforeMount } from "vue";
-import { event } from "./composables/useEmitter";
 import useMajra from "./composables/useMajra";
+import MForm from "./components/MForm.vue";
+import { ref, onBeforeMount } from "vue";
+import "./assets/tailwind.css";
 
 onBeforeMount(() => {
   const { registerFields } = useMajra();
@@ -37,8 +36,6 @@ const fields = [
     validation(value) {
       return value.length > 5 || "غلطه";
     },
-    col: { md: 12 },
-    group: "اطلاعات محصول",
   },
 ];
 </script>

@@ -25,6 +25,8 @@
 </template>
 
 <script setup>
+import useMajra from "../../composables/useMajra";
+import { ref, defineProps, defineEmits, computed, inject } from "vue";
 import { event, listen } from "./../../composables/useEmitter";
 import {
   sortBy,
@@ -35,8 +37,6 @@ import {
   flatten,
   get as getSafe,
 } from "lodash";
-import { ref, defineProps, defineEmits, computed, inject } from "vue";
-import useMajra from "../../composables/useMajra";
 // eslint-disable-next-line no-unused-vars
 const FieldSet = async () => import("./../utilities/FieldSet");
 
@@ -77,16 +77,16 @@ function created() {
 
 function bind(schema) {
   return {
-    updateField: (value) => updateField(schema, value),
-    parentChanged: (value, init = false) => parentChanged(schema, value, init),
     schema,
-    fields: props.fields,
     form: props.form,
+    fields: props.fields,
     filters: filters.value,
     getProp: getProp(schema),
     getFromSchema: getFromSchema(schema),
     value: getSafe(props.form, schema.field),
     error: getSafe(errors.value, schema.field, false),
+    updateField: (value) => updateField(schema, value),
+    parentChanged: (value, init = false) => parentChanged(schema, value, init),
   };
 }
 
