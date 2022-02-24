@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from "vue";
+import { defineProps, defineEmits, provide } from "vue";
 import useFillForm from "../composables/useFillForm";
 import FormOperator from "./form/FormOperator.vue";
 
@@ -16,7 +16,10 @@ const props = defineProps({
   modelValue: { default: () => {} },
   fields: { default: () => [] },
   autoGenerate: { default: () => true },
+  name: { default: "form" },
 });
+
+provide("form.name", props.name);
 
 const emit = defineEmits(["callParentChanged", "update:modelValue"]);
 

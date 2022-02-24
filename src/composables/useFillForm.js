@@ -33,7 +33,7 @@ export default ({ props, emit }) => {
     } else {
       formTmp = { ...initialForm };
     }
-    event("formFilled", { value: formTmp });
+    event("form.filled", { value: formTmp });
     emit("update:modelValue", { ...formTmp });
   }
 

@@ -26,8 +26,17 @@
 
 <script setup>
 import { event, listen } from "./../../composables/useEmitter";
-import { sortBy, has, pickBy, isEmpty, flatten, get as getSafe } from "lodash";
-import { ref, defineProps, defineEmits, computed } from "vue";
+import {
+  sortBy,
+  has,
+  pickBy,
+  isString,
+  isEmpty,
+  flatten,
+  get as getSafe,
+} from "lodash";
+import { ref, defineProps, defineEmits, computed, inject } from "vue";
+import useMajra from "../../composables/useMajra";
 // eslint-disable-next-line no-unused-vars
 const FieldSet = async () => import("./../utilities/FieldSet");
 
@@ -87,7 +96,9 @@ function validate() {
   }
 }
 
-listen("form.validate", (result) => {
+const formName = inject("form.name");
+
+listen("validate." + formName, (result) => {
   validate();
   result.value.errors = pickBy(errors.value, (val) => !!val);
   result.value.isValid = isEmpty(result.value.errors);
@@ -132,8 +143,12 @@ function findFieldByModel(model) {
   return flatFields.value.filter((f) => f?.rel?.model == model)[0];
 }
 
+const { registeredFields } = useMajra();
+
 function getComponent(schema) {
-  return has(schema, "component") ? schema.component : this.map[schema.type];
+  return has(schema, "component") && isString(schema.component)
+    ? registeredFields[schema.component]
+    : schema.component;
 }
 
 function getProp(field) {
