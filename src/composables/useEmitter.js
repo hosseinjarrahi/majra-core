@@ -26,24 +26,28 @@ export const runAfterPageLoaded = (fn) => {
 };
 
 let fns3 = [];
-export const runBeforeTemplateInit = (fn) => {
+export const runBeforeMajraInit = (fn) => {
   fns3.push(fn);
 };
 
 export const clear = (callback) => {
   emitter.all.clear();
   callback && callback();
-  listen("beforeTemplateInit", (args) => {
+  listen("beforeMajraInit", (args) => {
     fns3.forEach((fn) => fn(args));
     fns3 = [];
   });
-  listen("templateMounted", (args) => {
+  listen("majraMounted", (args) => {
     fns.forEach((fn) => fn(args));
     fns = [];
   });
-  listen("templateLoaded", (args) => {
+  listen("majraDataLoaded", (args) => {
     fns2.forEach((fn) => fn(args));
     fns2 = [];
   });
   for (let fn of lockedListeners) listen(fn);
 };
+
+export function useEmitter() {
+  return { listen, event, clear, emitter };
+}
