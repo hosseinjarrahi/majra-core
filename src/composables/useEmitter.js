@@ -48,6 +48,6 @@ export const clear = (callback) => {
   for (let fn of lockedListeners) listen(fn);
 };
 
-export default function useEmitter() {
+export function useEmitter() {
   return { listen, event, clear, emitter };
 }
